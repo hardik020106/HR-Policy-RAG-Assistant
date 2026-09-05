@@ -1,64 +1,73 @@
-from langchain_community.vectorstores import FAISS
+# from langchain_community.vectorstores import FAISS
 from hr_assistant import config
 from hr_assistant.embeddings import create_embeddings
 import os
 from hr_assistant.logger import get_logger
+from langchain_qdrant import QdrantVectoreStore
+from qdrant_client import QdrantClient
 
 logger = get_logger(__name__)
 
 def create_vector_store(chunks):
     """
-    Create a FAISS vector store using the provided embeddings.
-
-    Args:
-        embeddings: An instance of the embeddings model.
-
-    Returns:
-        An instance of FAISS vector store.
+    Embedd the text chunks and store into the qdrant vector store.
     """
-    logger.info("Creating FAISS vector store...")
+    logger.info("Creating Qdrant vector store...")
     embedding_model = create_embeddings()
-    logger.info("FAISS vector store created successfully.")
-    return FAISS.from_documents(chunks, embedding_model)
+    logger.info("Qdrant vector store created successfully.")
+    vector_store = QdrantVectoreStore.from_documents(
+        documents=chunks,
+        embedding=embedding_model,
+        client=QdrantClient(
+            url=config.qdrant_url,
+            api_key=config.qdrant_api_key
+        ),
+        collection_name=config.qdrant_collection_name
+    )
+    return vector_store
 
 
-## save vectore store
+## save vector store
 
-def save_vector_store(vector_store, path=config.VECTOR_STORE_PATH):
+# def save_vector_store(vector_store, path=config.VECTOR_STORE_PATH):
+#     """
+#     Save the FAISS vector store to the specified path.
+
+#     Args:
+#         vector_store: An instance of FAISS vector store.
+#         path: The path where the vector store will be saved.
+#     """
+#     logger.info(f"Saving FAISS vector store to {path}...")
+#     vector_store.save_local(path)
+
+def load_vector_store():
     """
-    Save the FAISS vector store to the specified path.
-
-    Args:
-        vector_store: An instance of FAISS vector store.
-        path: The path where the vector store will be saved.
+    Connect to the Qdrant Cloud 
+    collection that was created for the HR policy documents.
     """
-    logger.info(f"Saving FAISS vector store to {path}...")
-    vector_store.save_local(path)
-
-def load_vector_store(path=config.VECTOR_STORE_PATH):
-    """
-    Load the FAISS vector store from the specified path.
-
-    Args:
-        path: The path from where the vector store will be loaded.
-    """
-    logger.info(f"Loading FAISS vector store from {path}...")
+    logger.info(f"Loading Qdrant vector store ...")
     embedding_model = create_embeddings()
-    logger.info(f"FAISS vector store loaded from {path}.")
-    return FAISS.load_local(path, embedding_model)
+    logger.info(f"Qdrant vector store loaded.")
+    return QdrantVectoreStore.from_documents(
+        embedding=embedding_model,
+        client=QdrantClient(
+            url=config.qdrant_url,
+            api_key=config.qdrant_api_key
+        ),
+        collection_name=config.qdrant_collection_name
+    )
 
 
-def vector_store_exists(path=config.VECTOR_STORE_PATH):
+def vector_store_exists():
     """
-    Check if the FAISS vector store exists at the specified path.
-
-    Args:
-        path: The path to check for the vector store.
-    Returns:
-        True if the vector store exists, False otherwise.
+    Check if qdrant store alreeady exists.
     """
-    logger.info(f"Checking if FAISS vector store exists at {path}...")
-    return os.path.exists(os.path.join(path, "index.faiss")) 
+    logger.info(f"Checking if Qdrant vector store exists at {path}...")
+    client = QdrantClient(
+        url=config.qdrant_url,
+        api_key=config.qdrant_api_key
+    )
+    return client.collection_exists(collection_name=config.qdrant_collection_name)
 
 
 def get_retriever(vector_store, top_k=config.TOP_K_RESULTS):

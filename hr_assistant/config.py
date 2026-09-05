@@ -5,7 +5,9 @@ load_dotenv()  # Load environment variables from .env file
 
 groq_api_key = os.getenv("GROQ_API_KEY")
 jina_api_key = os.getenv("JINA_API_KEY")
-
+qdrant_api_key = os.getenv("QDRANT_API_KEY")
+qdrant_url = os.getenv("QDRANT_URL")
+qdrant_collection_name = os.getenv("QDRANT_COLLECTION_NAME")
 GUARD_MODEL_NAME = "openai/gpt-oss-safeguard-20b"
 
 LANGSMITH_TRACING = os.getenv("LANGSMITH_TRACING", "false")
@@ -15,7 +17,6 @@ LANGSMITH_PROJECT = os.getenv("LANGSMITH_PROJECT")
 
 DATA_PATH_FILE = os.path.join("data", "hr_policy.txt")
 
-VECTOR_STORE_PATH = os.path.join("data", "faiss_index") # Path to store the FAISS index
 
 LLM_MODEL_NAME = "openai/gpt-oss-20b"
 EMBEDDING_MODEL_NAME = "jina-embeddings-v2-base-en"
