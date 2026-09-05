@@ -8,6 +8,8 @@ jina_api_key = os.getenv("JINA_API_KEY")
 qdrant_api_key = os.getenv("QDRANT_API_KEY")
 qdrant_url = os.getenv("QDRANT_URL")
 qdrant_collection_name = os.getenv("QDRANT_COLLECTION_NAME")
+portkey_api_key = os.getenv("PORTKEY_API_KEY")
+
 GUARD_MODEL_NAME = "openai/gpt-oss-safeguard-20b"
 
 LANGSMITH_TRACING = os.getenv("LANGSMITH_TRACING", "false")
@@ -34,3 +36,5 @@ def check_api_keys():
         raise ValueError("GROQ_API_KEY is not set in the environment variables.")
     if not jina_api_key:
         raise ValueError("JINA_API_KEY is not set in the environment variables.")
+
+

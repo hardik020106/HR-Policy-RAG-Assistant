@@ -1,4 +1,7 @@
-from langchain_groq import ChatGroq
+# from langchain_groq import ChatGroq
+# from webbrowser import get
+
+from hr_assistant.gateway import get_gateway_llm
 from hr_assistant import config
 from hr_assistant.logger import get_logger
 
@@ -10,10 +13,7 @@ def get_llm():
     Returns:
         An instance of ChatGroq.
     """
-    logger.info(f"Initializing ChatGroq model: {config.LLM_MODEL_NAME}...")
-    llm = ChatGroq(
-        model_name=config.LLM_MODEL_NAME,
-        api_key=config.groq_api_key
-    )
+    logger.info(f"Initializing LLm via PortKey...")
+    llm = get_gateway_llm()
     logger.info("ChatGroq model initialized successfully.")
     return llm

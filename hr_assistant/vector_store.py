@@ -62,7 +62,7 @@ def vector_store_exists():
     """
     Check if qdrant store alreeady exists.
     """
-    logger.info(f"Checking if Qdrant vector store exists at {path}...")
+    logger.info(f"Checking if Qdrant vector store exists...")
     client = QdrantClient(
         url=config.qdrant_url,
         api_key=config.qdrant_api_key
