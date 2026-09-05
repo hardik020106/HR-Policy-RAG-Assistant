@@ -11,6 +11,7 @@ from hr_assistant.vector_store import (
     vector_store_exists,
     get_retriever
 )
+from hr_assistant.guardrails import check_input_policy, check_output_policy,REFUSAL_MESSAGE
 from hr_assistant.logger import get_logger
 from hr_assistant.tracing import check_langsmith_tracing
 logger = get_logger(__name__)
@@ -63,7 +64,15 @@ def ask(agent,question:str) -> str:
         question (str): The question to ask.
         """
     logger.info(f"Asking question to HR agent: {question}")
+    #input guard
+    if not check_input_policy(question):
+        logger.warning("Input policy violation detected. Refusing to answer.")
+        return REFUSAL_MESSAGE
     response = agent.invoke({"message":[{"role":"user","content":question}]})
+    #output guard
+    if not check_output_policy(response["message"][0]["content"]):
+        logger.warning("Output policy violation detected. Refusing to provide the answer.")
+        return REFUSAL_MESSAGE
     return response["message"][0]["content"]
 
 
