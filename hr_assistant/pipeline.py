@@ -3,7 +3,7 @@ from hr_assistant.agent import create_hr_agent
 from hr_assistant.document_loader import load_documents
 from hr_assistant.llm import get_llm
 from hr_assistant.tools import create_search_tool
-from hr_assistant.splitter import create_splitter
+from hr_assistant.splitter import split_documents
 from hr_assistant.vector_store import (
     create_vector_store,
     # save_vector_store,
@@ -30,7 +30,7 @@ def build_vectore_store_for_documents(file_path: str = config.DATA_PATH_FILE):
         return load_vector_store()
     logger.info("No vector store found. Creating a new one...")
     documents = load_documents(file_path)
-    chunks = create_splitter(documents)
+    chunks = split_documents(documents)
     vector_store = create_vector_store(chunks)
     # save_vector_store(vector_store, vector_store_path)
     return vector_store
@@ -50,7 +50,7 @@ def build_hr_assistant(file_path: str = config.DATA_PATH_FILE):
     retriever = get_retriever(vector_store)
     llm = get_llm()
     search_tool = create_search_tool(retriever)
-    hr_agent = create_hr_agent(llm, search_tool)
+    hr_agent = create_hr_agent(llm, [search_tool])
     return hr_agent
 
 
@@ -67,12 +67,12 @@ def ask(agent,question:str) -> str:
     if not check_input_policy(question):
         logger.warning("Input policy violation detected. Refusing to answer.")
         return REFUSAL_MESSAGE
-    response = agent.invoke({"message":[{"role":"user","content":question}]})
+    response = agent.invoke({"messages":[{"role":"user","content":question}]})
     #output guard
-    if not check_output_policy(response["message"][0]["content"]):
+    if not check_output_policy(response["messages"][-1].content):
         logger.warning("Output policy violation detected. Refusing to provide the answer.")
         return REFUSAL_MESSAGE
-    return response["message"][0]["content"]
+    return response["messages"][-1].content
 
 
 

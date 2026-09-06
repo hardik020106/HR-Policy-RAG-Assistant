@@ -9,6 +9,7 @@ qdrant_api_key = os.getenv("QDRANT_API_KEY")
 qdrant_url = os.getenv("QDRANT_URL")
 qdrant_collection_name = os.getenv("QDRANT_COLLECTION_NAME")
 portkey_api_key = os.getenv("PORTKEY_API_KEY")
+portkey_config = os.getenv("PORTKEY_CONFIG")
 
 GUARD_MODEL_NAME = "openai/gpt-oss-safeguard-20b"
 
@@ -28,7 +29,15 @@ CHUNK_OVERLAP = 200  # Overlap between chunks
 
 TOP_K_RESULTS = 5  # Number of top results to retrieve from the vector store
 
-SYSTEM_PROMPT = """You are an HR assistant. You will be provided with a question and a set of context documents. Use the context to answer the question as accurately as possible. If the answer is not contained within the context, respond with "I don't know." Do not make up answers. Be concise and clear in your response."""
+SYSTEM_PROMPT = (
+    "You are a friendly HR assistant. "
+    "Always use the search_documents tool to look up information "
+    "from the HR policy documents before answering. "
+    "Use the retrieved information to answer the user's question. "
+    "If the answer is not present in the search results, "
+    "say you don't know instead of guessing."
+)
+
 
 
 def check_api_keys():

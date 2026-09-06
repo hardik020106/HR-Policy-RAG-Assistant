@@ -1,0 +1,42 @@
+2026-09-06 16:57:57,372 | INFO | hr_assistant.pipeline | Building HR assistant...
+2026-09-06 16:57:57,373 | INFO | hr_assistant.tracing | LangSmith tracing ENABLED - project 'Advanced RAG', traces at https://smith.langchain.com
+2026-09-06 16:57:57,373 | INFO | hr_assistant.pipeline | Building vector store for documents at data\hr_policy.txt...
+2026-09-06 16:57:57,373 | INFO | hr_assistant.vector_store | Checking if Qdrant vector store exists...
+2026-09-06 16:57:58,292 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy_collection/exists "HTTP/1.1 200 OK"
+2026-09-06 16:57:58,300 | INFO | hr_assistant.pipeline | Vector store already exists. Skipping creation.
+2026-09-06 16:57:58,302 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2026-09-06 16:57:58,303 | INFO | hr_assistant.vector_store | Loading Qdrant vector store ...
+2026-09-06 16:57:58,306 | INFO | hr_assistant.embeddings | Creating embeddings using model: jina-embeddings-v2-base-en...
+2026-09-06 16:57:58,309 | INFO | hr_assistant.embeddings | Embeddings created successfully.
+2026-09-06 16:57:58,310 | INFO | hr_assistant.vector_store | Qdrant vector store loaded.
+2026-09-06 16:57:59,163 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2026-09-06 16:57:59,182 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy_collection "HTTP/1.1 200 OK"
+2026-09-06 16:58:03,387 | INFO | hr_assistant.vector_store | Getting retriever from FAISS vector store with top_k=5...
+2026-09-06 16:58:03,388 | INFO | hr_assistant.llm | Initializing LLm via PortKey...
+2026-09-06 16:58:04,887 | INFO | hr_assistant.gateway | ChatOpenAI instance created with Portkey gateway.
+2026-09-06 16:58:04,887 | INFO | hr_assistant.llm | ChatGroq model initialized successfully.
+2026-09-06 16:58:04,898 | INFO | hr_assistant.agent | Creating HR agent...
+2026-09-06 16:58:11,532 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 16:58:11,537 | INFO | hr_assistant.pipeline | Asking question to HR agent: hii
+2026-09-06 16:58:12,124 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:58:13,352 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:58:13,633 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:58:41,331 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 16:58:41,339 | INFO | hr_assistant.pipeline | Asking question to HR agent: What is the standard notice period for resignation? 
+2026-09-06 16:58:41,640 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:58:42,291 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:58:42,541 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:07,428 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 17:03:07,436 | INFO | hr_assistant.pipeline | Asking question to HR agent: hii
+2026-09-06 17:03:07,909 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:09,747 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:10,154 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:20,568 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 17:03:20,573 | INFO | hr_assistant.pipeline | Asking question to HR agent: What is the standard notice period for resignation?
+2026-09-06 17:03:21,003 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:21,549 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:21,584 | INFO | hr_assistant.tools | Searching documents for query: standard notice period for resignation...
+2026-09-06 17:03:23,263 | INFO | httpx | HTTP Request: POST https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy_collection/points/query "HTTP/1.1 200 OK"
+2026-09-06 17:03:23,272 | INFO | hr_assistant.tools | Search results for query: standard notice period for resignation...
+2026-09-06 17:03:23,898 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 17:03:24,493 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

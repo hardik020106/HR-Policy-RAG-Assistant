@@ -18,4 +18,4 @@ def create_hr_agent(llm,tools):
     return create_agent(
         model=llm,
         tools=tools,
-        system_message=config.SYSTEM_PROMPT)
+        system_prompt=config.SYSTEM_PROMPT)

@@ -1,0 +1,31 @@
+2026-09-06 16:01:41,235 | INFO | hr_assistant.pipeline | Building HR assistant...
+2026-09-06 16:01:41,235 | INFO | hr_assistant.tracing | LangSmith tracing ENABLED - project 'Advanced RAG', traces at https://smith.langchain.com
+2026-09-06 16:01:41,235 | INFO | hr_assistant.pipeline | Building vector store for documents at data\hr_policy.txt...
+2026-09-06 16:01:41,236 | INFO | hr_assistant.vector_store | Checking if Qdrant vector store exists...
+2026-09-06 16:01:43,248 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2026-09-06 16:01:44,072 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy_collection/exists "HTTP/1.1 200 OK"
+2026-09-06 16:01:44,075 | INFO | hr_assistant.pipeline | Vector store already exists. Skipping creation.
+2026-09-06 16:01:44,075 | INFO | hr_assistant.vector_store | Loading Qdrant vector store ...
+2026-09-06 16:01:44,076 | INFO | hr_assistant.embeddings | Creating embeddings using model: jina-embeddings-v2-base-en...
+2026-09-06 16:01:44,076 | INFO | hr_assistant.embeddings | Embeddings created successfully.
+2026-09-06 16:01:44,076 | INFO | hr_assistant.vector_store | Qdrant vector store loaded.
+2026-09-06 16:01:44,908 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2026-09-06 16:01:44,919 | INFO | httpx | HTTP Request: GET https://66ea0f03-befe-495a-9494-99379441e7eb.eu-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy_collection "HTTP/1.1 200 OK"
+2026-09-06 16:01:45,521 | INFO | hr_assistant.vector_store | Getting retriever from FAISS vector store with top_k=5...
+2026-09-06 16:01:45,522 | INFO | hr_assistant.llm | Initializing LLm via PortKey...
+2026-09-06 16:01:46,429 | INFO | hr_assistant.gateway | ChatOpenAI instance created with Portkey gateway.
+2026-09-06 16:01:46,429 | INFO | hr_assistant.llm | ChatGroq model initialized successfully.
+2026-09-06 16:01:46,432 | INFO | hr_assistant.agent | Creating HR agent...
+2026-09-06 16:03:21,441 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 16:03:21,447 | INFO | hr_assistant.pipeline | Asking question to HR agent: hii
+2026-09-06 16:03:22,033 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:03:23,423 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:04:08,306 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 16:04:08,310 | INFO | hr_assistant.pipeline | Asking question to HR agent: hii
+2026-09-06 16:04:08,647 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:04:09,965 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:10:49,413 | INFO | __main__ | === Streamlit run: new question received ===
+2026-09-06 16:10:49,417 | INFO | hr_assistant.pipeline | Asking question to HR agent: hii
+2026-09-06 16:10:49,762 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:10:51,176 | INFO | httpx2 | HTTP Request: POST https://api.portkey.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-09-06 16:10:51,422 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

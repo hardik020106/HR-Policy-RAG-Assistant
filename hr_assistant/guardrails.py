@@ -75,37 +75,37 @@ EXAMPLES
 """
 
 
-def check_input_policy(user_input: str) -> dict:
-    """Check if the user input violates the HR assistant's input policy."""
-    prompt = f"{INPUT_POLICY}\n\nUSER_INPUT: {user_input}"
-    response = _guard_llm.invoke({"message":[{"role":"user","content":prompt}]})
-    try:
-        result = json.loads(response["message"][0]["content"])
-        return result
-    except json.JSONDecodeError:
-        logger.error("Failed to decode JSON from guard LLM response: %s", response)
-        return {"violation": 1, "category": "unknown", "rationale": "Failed to parse guard LLM response."}
-    
+# check safety 
+
+def _check_safety(text: str, policy: str) -> tuple[bool, str]:
+    """Return (is_safe, reason) for the given text under the given policy."""
+    response = _guard_llm.invoke(
+        [
+            {"role": "system", "content": policy},
+            {"role": "user", "content": text},
+        ]
+    )
+    result = json.loads(response.content)
+    is_safe = result.get("violation", 0) == 0
+    reason = result.get("rationale", "")
+    return is_safe, reason
 
 
-def check_output_policy(assistant_answer: str) -> dict:
-    """Check if the assistant's answer violates the HR assistant's output policy."""
-    prompt = f"{OUTPUT_POLICY}\n\nASSISTANT_ANSWER: {assistant_answer}"
-    response = _guard_llm.invoke({"message":[{"role":"user","content":prompt}]})
-    try:
-        result = json.loads(response["message"][0]["content"])
-        return result
-    except json.JSONDecodeError:
-        logger.error("Failed to decode JSON from guard LLM response: %s", response)
-        return {"violation": 1, "category": "unknown", "rationale": "Failed to parse guard LLM response."}
+# input safety 
 
-    
-def check_safety(user_input: str, assistant_answer: str) -> dict:
-    """Check if the user input or assistant answer violates the HR assistant's policies."""
-    input_result = check_input_policy(user_input)
-    output_result = check_output_policy(assistant_answer)
 
-    return {
-        "input_violation": input_result,
-        "output_violation": output_result
-    }
+def check_input_policy(question: str) -> tuple[bool, str]:
+    """Check the user's question before the agent sees it."""
+    is_safe, reason = _check_safety(question, INPUT_POLICY)
+    if not is_safe:
+        logger.warning("Input guard BLOCKED question: %s | reason: %s", question, reason)
+    return is_safe, reason
+
+#output safety
+
+def check_output_policy(answer: str) -> tuple[bool, str]:
+    """Check the agent's answer before showing it to the user."""
+    is_safe, reason = _check_safety(answer, OUTPUT_POLICY)
+    if not is_safe:
+        logger.warning("Output guard BLOCKED answer: %s | reason: %s", answer, reason)
+    return is_safe, reason

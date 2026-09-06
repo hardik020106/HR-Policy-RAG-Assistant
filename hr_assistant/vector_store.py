@@ -3,7 +3,7 @@ from hr_assistant import config
 from hr_assistant.embeddings import create_embeddings
 import os
 from hr_assistant.logger import get_logger
-from langchain_qdrant import QdrantVectoreStore
+from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 
 logger = get_logger(__name__)
@@ -15,13 +15,11 @@ def create_vector_store(chunks):
     logger.info("Creating Qdrant vector store...")
     embedding_model = create_embeddings()
     logger.info("Qdrant vector store created successfully.")
-    vector_store = QdrantVectoreStore.from_documents(
+    vector_store = QdrantVectorStore.from_documents(
         documents=chunks,
         embedding=embedding_model,
-        client=QdrantClient(
-            url=config.qdrant_url,
-            api_key=config.qdrant_api_key
-        ),
+        url=config.qdrant_url,
+        api_key=config.qdrant_api_key,
         collection_name=config.qdrant_collection_name
     )
     return vector_store
@@ -48,12 +46,10 @@ def load_vector_store():
     logger.info(f"Loading Qdrant vector store ...")
     embedding_model = create_embeddings()
     logger.info(f"Qdrant vector store loaded.")
-    return QdrantVectoreStore.from_documents(
+    return QdrantVectorStore.from_existing_collection(
         embedding=embedding_model,
-        client=QdrantClient(
-            url=config.qdrant_url,
-            api_key=config.qdrant_api_key
-        ),
+        url=config.qdrant_url,
+        api_key=config.qdrant_api_key,
         collection_name=config.qdrant_collection_name
     )
 
