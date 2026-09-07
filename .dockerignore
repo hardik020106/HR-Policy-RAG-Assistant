@@ -1,0 +1,20 @@
+.env
+.env.docker
+.env.example
+
+rbemv/
+__pycache__/
+*.pyc
+
+
+logs/
+
+.git/
+.gitignore
+NOTES/
+rag.ipynb
+.ipynb_checkpoints/
+README.md
+docs/ 
+
+REF CODE BASE/
