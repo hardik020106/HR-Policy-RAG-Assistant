@@ -246,18 +246,6 @@ Open `http://localhost:8501` in your browser.
 - The guardrail functions return `(is_safe, reason)` tuples, while the pipeline uses them as simple booleans. This should be corrected before relying on the guardrails to block unsafe requests or responses.
 - The Qdrant, Portkey, and LangSmith credentials are needed at runtime, although only Groq and Jina keys are explicitly validated during startup.
 
-## Suggested Next Improvements
-
-- Fix guardrail result handling by unpacking `is_safe, reason`.
-- Add an `.env.example` with all required variables.
-- Add source metadata and citations to generated answers.
-- Support PDF and multi-document ingestion.
-- Add unit tests for chunking, retrieval, guardrails, and configuration validation.
-- Pin dependency versions and add a lockfile.
-- Remove generated `__pycache__` files and historical runtime logs from version control.
-- Add screenshots, a short demo video, and documented evaluation results.
-- Replace or supplement the demo handbook with more realistic, anonymized policy documents.
-
 ## Disclaimer
 
 This project is intended for learning and demonstration. The supplied policy content is fictional and should not be used to make real HR, employment, legal, or compliance decisions.
