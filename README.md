@@ -24,21 +24,25 @@ The project includes a demo HR policy document covering leave, work from home, p
 
 ## Architecture
 
+The parse error comes from `ask()` inside the node label. Quote labels that include parentheses or HTML line breaks.
+
+Replace the diagram with:
+
 ```mermaid
 flowchart TD
     U[User] --> S[Streamlit chat app]
-    S --> P[ask()]
-    P --> IG[Input safety classifier<br/>Groq safeguard model]
+    S --> P["ask()"]
+    P --> IG["Input safety classifier<br/>Groq safeguard model"]
     P --> A[LangChain agent]
 
     A --> T[search_documents tool]
-    T --> R[Qdrant retriever<br/>top k = 5]
+    T --> R["Qdrant retriever<br/>top k = 5"]
     R --> Q[Qdrant Cloud collection]
     E[Jina embeddings] --> Q
 
     A --> G[Portkey gateway]
-    G --> L[Primary LLM<br/>openai/gpt-oss-20b]
-    L --> OG[Output safety classifier<br/>Groq safeguard model]
+    G --> L["Primary LLM<br/>openai/gpt-oss-20b"]
+    L --> OG["Output safety classifier<br/>Groq safeguard model"]
     OG --> S
 ```
 
